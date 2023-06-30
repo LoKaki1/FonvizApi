@@ -1,0 +1,25 @@
+{
+  "OrderSenderConfig": {
+    "ApiKey": "CKC1UZKREGTYVFB8C0L3",
+    "ApiSecret": "3Impq3MUpoIdd9HbZPNlBi2xgWZjr8VwbuPOSkDv",
+    "quantity": 100
+  },
+  "FinvizConfig": {
+    "Url": "https://finviz.com/screener.ashx?v=111",
+    "Headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+    }
+  },
+  "YahooConfig": {
+    "Url": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?region=US&lang=en-US&includePrePost=false&interval={interval}&useYfid=true&range={_range}&corsDomain=finance.yahoo.com&.tsrc=finance",
+    "Headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple WebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+    }
+  },
+  "DefaultScannerSettings": {
+    "finviz": {
+      "f": "sh_curvol_o1000,sh_price_u15,ta_change_u20",
+      "ft": 4
+    }
+  }
+}
