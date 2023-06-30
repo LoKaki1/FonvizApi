@@ -12,7 +12,8 @@ class YahooDataPuller(IStocksDataPuller):
         self.url = config.url
         self.headers = config.headers
         self.formatting = lambda result, time_in_candle, index: _format_price(result.json()['chart']['result'][0]
-                                                       ['indicators']['quote'][0][time_in_candle][index])
+                                                                              ['indicators']['quote'][0][
+                                                                                  time_in_candle][index])
 
     @logger_info_decorator
     def get_price(self, ticker: str, time_in_candle: str, index: int, **kwargs) -> float:

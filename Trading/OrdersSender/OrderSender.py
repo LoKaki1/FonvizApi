@@ -5,17 +5,20 @@ from alpaca.trading.requests import MarketOrderRequest, LimitOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
 
 from Common.Logger.Logger import logger_info_decorator
+from Common.Models.AccountModel import AccountModel
 from Config.Configs.OrderSenderConfig import OrderSenderConfig
+from Trading.AccountManager.IAccountManager import IAccountManager
 from Trading.OrdersSender.IOrderSender import IOrderSender
 
 
 class OrderSender(IOrderSender):
     borders_expressions: dict[str, Union[Callable[[Any], dict[str, Any]], Callable[[Any], dict[str, Any]]]]
 
-    def __init__(self, order_sender_config: OrderSenderConfig):
-        self.trading_client = TradingClient(api_key=order_sender_config.api_key,
-                                            secret_key=order_sender_config.api_secret,
-                                            paper=True)
+    def __init__(self,
+                 account_manager: IAccountManager,
+                 trading_client: TradingClient):
+        self.account_manager = account_manager
+        self.trading_client = trading_client
         self.borders_expressions = {
             'stop_loss': lambda stop_price: {'stop_price': stop_price,
                                              'limit_price': stop_price},
@@ -41,6 +44,8 @@ class OrderSender(IOrderSender):
             **borders
         )
 
+        self.account_manager.update_acount()
+
         return self.trading_client.submit_order(order_data=limit_order_data)
 
     @logger_info_decorator
@@ -63,6 +68,8 @@ class OrderSender(IOrderSender):
         market_order = self.trading_client.submit_order(
             order_data=market_order_data
         )
+
+        self.account_manager.update_acount()
 
         return market_order
 

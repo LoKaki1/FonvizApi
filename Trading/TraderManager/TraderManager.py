@@ -1,4 +1,4 @@
-from Common.Logger.Logger import logger_info_decorator
+from Common.Logger.Logger import logger_info_decorator, log_info
 from Scanner.Abstracts.IScannerEverything import IScannerEverything
 from Trading.TraderManager.ITraderManager import ITraderManager
 from Trading.TraderStrategy.ITraderStrategy import ITraderStrategy
@@ -20,6 +20,8 @@ class TraderManager(ITraderManager):
             kwargs = self.default_scanner_args
 
         tickers = self.scanner.scan(**kwargs)
+
+        log_info(tickers)
 
         for ticker in tickers:
             self.trader_strategy.trade_strategy(ticker)
