@@ -16,8 +16,8 @@ class BasicStrategy(IStrategy):
         self.profit = 0.10
 
     @logger_info_decorator
-    def trade_strategy(self, ticker: str) -> dict[str, object]:
-        close_price = self.data_puller.get_price(ticker, 'close', -1, interval='1m', _range='1d')
+    def trade_strategy(self, ticker: str, **kwargs) -> dict[str, object]:
+        close_price = self.data_puller.get_price(ticker, 'close', -1, interval='1m', _range='1d', **kwargs)
         """
             ticker: str,
             type_of_order: str,

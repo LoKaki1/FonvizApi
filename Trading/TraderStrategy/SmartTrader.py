@@ -14,5 +14,10 @@ class SmartTrader(ITraderStrategy):
 
     @logger_info_decorator
     def trade_strategy(self, ticker: str, **kwargs):
-        order_kwargs = self.strategy.trade_strategy(ticker)
-        self.order_sender.send_limit_order(**order_kwargs)
+        order_kwargs = self.strategy.trade_strategy(ticker, **kwargs)
+
+        if 'price' in order_kwargs:
+            self.order_sender.send_limit_order(**order_kwargs)
+
+        else:
+            self.order_sender.make_market_order(ticker, **order_kwargs)
