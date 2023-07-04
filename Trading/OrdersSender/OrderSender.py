@@ -53,8 +53,8 @@ class OrderSender(IOrderSender):
                           ticker: str,
                           type_of_order: str,
                           quantity: int,
-                          stop_loss: float,
-                          take_profit: float):
+                          stop_loss: float = None,
+                          take_profit: float = None):
         order_type = OrderSide(type_of_order)
         borders = self.__check_borders(stop_loss, take_profit)
         market_order_data = MarketOrderRequest(
@@ -83,7 +83,7 @@ class OrderSender(IOrderSender):
     @logger_info_decorator
     def __check_border(self, border: float, type_of_border: str):
         if border is None:
-            return {type_of_border: None}
+            return None
 
         border_expression = self.borders_expressions[type_of_border](border)
 

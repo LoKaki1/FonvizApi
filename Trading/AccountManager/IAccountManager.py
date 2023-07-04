@@ -12,3 +12,8 @@ class IAccountManager:
         """
         :return:
         """
+
+    def close_all_positions(self):
+        """
+        :return:
+        """

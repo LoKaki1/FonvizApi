@@ -3,6 +3,7 @@ from datetime import datetime
 
 from alpaca.trading import TradingClient
 
+from Common.Logger.Logger import log_info
 from Config.ConfigurationLoader import load_configuration
 from Pullers.StocksDataPuller.YahooDataPuller import YahooDataPuller
 from Scanner.FinvizScanner import FinvizScanner
@@ -10,6 +11,7 @@ from Scanner.MainScanner import MainScanner
 from Scanner.YahooScanner import YahooScanner
 from Trading.AccountManager.AccountManager import AccountManager
 from Trading.OrdersSender.OrderSender import OrderSender
+from Trading.Protfolio.CloserProtfolio.CloserProtfolio import CloserProtfolio
 from Trading.Strategy.BasicStrategy import BasicStrategy
 from Trading.Strategy.CloserStrategy import CloserStrategy
 from Trading.TraderManager.TraderManager import TraderManager
@@ -32,11 +34,15 @@ strategy = BasicStrategy(yahoo_puller, account_manager)
 close_strategy = CloserStrategy(account_manager)
 trader = SmartTrader(strategy, order_sender)
 close_trader = SmartTrader(close_strategy, order_sender)
-trader_manager = TraderManager(main_scanner, trader, close_trader, account_manager, config.default_scanner_settings)
+closer_protfolio = CloserProtfolio(close_trader, account_manager)
+trader_manager = TraderManager(main_scanner, trader, closer_protfolio, account_manager, config.default_scanner_settings)
 
 while True:
     if datetime.now().hour >= 6:
-        trader_manager.trade_according_to_scanner()
+        try:
+            trader_manager.trade_according_to_scanner()
+        except Exception as e:
+            log_info(e)
 
     time.sleep(60 * 60 * 24)
 

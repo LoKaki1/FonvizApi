@@ -20,4 +20,4 @@ class SmartTrader(ITraderStrategy):
             self.order_sender.send_limit_order(**order_kwargs)
 
         else:
-            self.order_sender.make_market_order(ticker, **order_kwargs)
+            self.order_sender.make_market_order(**order_kwargs)

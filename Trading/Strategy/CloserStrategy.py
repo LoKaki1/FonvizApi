@@ -17,6 +17,6 @@ class CloserStrategy(IStrategy):
         return {
             'ticker': ticker,
             'type_of_order': 'sell',
-            'qty': kwargs['qty']
+            'quantity': kwargs['quantity']
         }
 

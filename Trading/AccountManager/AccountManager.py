@@ -8,7 +8,6 @@ class AccountManager(IAccountManager):
 
     def __init__(self, trading_client: TradingClient):
         self.trading_client = trading_client
-
         self.account_model = AccountModel(0, 0, 0)
 
         self.update_acount()
@@ -23,3 +22,6 @@ class AccountManager(IAccountManager):
         self.update_acount()
 
         return self.account_model
+
+    def close_all_positions(self):
+        self.trading_client.close_all_positions(True)
