@@ -41,6 +41,7 @@ class OrderSender(IOrderSender):
             limit_price=price,
             side=order_type,
             time_in_force=TimeInForce.DAY,
+            extended_hours=True,
             **borders
         )
 
@@ -62,6 +63,7 @@ class OrderSender(IOrderSender):
             qty=quantity,
             side=order_type,
             time_in_force=TimeInForce.DAY,
+            extended_hours=True,
             **borders
         )
         # Market order

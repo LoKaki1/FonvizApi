@@ -1,9 +1,10 @@
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from alpaca.trading import TradingClient
 
 from Common.Logger.Logger import log_info
+from Common.TradingCommon import can_i_even_trade, open_premarket
 from Config.ConfigurationLoader import load_configuration
 from Pullers.StocksDataPuller.YahooDataPuller import YahooDataPuller
 from Scanner.FinvizScanner import FinvizScanner
@@ -31,18 +32,18 @@ account_manager = AccountManager(trader_client)
 main_scanner = MainScanner(specific_scanners, all_scanners)
 order_sender = OrderSender(account_manager, trader_client)
 strategy = BasicStrategy(yahoo_puller, account_manager)
-close_strategy = CloserStrategy(account_manager)
+close_strategy = CloserStrategy(account_manager, yahoo_puller)
 trader = SmartTrader(strategy, order_sender)
 close_trader = SmartTrader(close_strategy, order_sender)
 closer_protfolio = CloserProtfolio(close_trader, account_manager)
 trader_manager = TraderManager(main_scanner, trader, closer_protfolio, account_manager, config.default_scanner_settings)
+trader_manager.trade_according_to_scanner()
+succeed = False
+
 
 while True:
-    if datetime.now().hour >= 6:
-        try:
-            trader_manager.trade_according_to_scanner()
-        except Exception as e:
-            log_info(e)
+    if can_i_even_trade():
+        trader_manager.trade_according_to_scanner()
 
-    time.sleep(60 * 60 * 24)
 
+    time.sleep(3600)
