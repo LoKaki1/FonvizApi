@@ -5,8 +5,8 @@ class IOrderSender:
                          type_of_order: str,
                          quantity: int,
                          price: float,
-                         stop_loss: float,
-                         take_profit: float):
+                         stop_loss: float = None,
+                         take_profit: float = None):
         """
         :param ticker:
         :param type_of_order:
@@ -21,8 +21,8 @@ class IOrderSender:
                           ticker: str,
                           type_of_order: str,
                           quantity: int,
-                          stop_loss: float,
-                          take_profit: float):
+                          stop_loss: float = None,
+                          take_profit: float = None):
         """
         :param ticker:
         :param type_of_order:

@@ -31,8 +31,8 @@ class OrderSender(IOrderSender):
                          type_of_order: str,
                          quantity: int,
                          price: float,
-                         stop_loss: float,
-                         take_profit: float):
+                         stop_loss: float = None,
+                         take_profit: float = None):
         order_type = OrderSide(type_of_order)
         borders = self.__check_borders(stop_loss, take_profit)
         limit_order_data = LimitOrderRequest(
